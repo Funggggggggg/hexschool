@@ -1,6 +1,10 @@
 <template>
   <div>
-    <h1>第一周作業</h1>
+    <h1>餐點管理工具</h1>
+    <p>Level 1：將菜單轉為資料格式 ✅</p>
+    <p>Level 2：可以重新設定菜單的庫存數量 ✅</p>
+    <p>Level 3（挑戰）：可以重新設定品項名稱</p>
+
   </div>
   <table>
     <thead>
@@ -18,6 +22,7 @@
         <td>{{ drink.discription }}</td>
         <td>
           <button @click="drink.price > 0 ? drink.price-- : drink.price = 0">-</button>
+          <!-- @click 可以放三元運算式 -->
           {{ drink.price }}
           <button @click="drink.price++">+</button></td>
         <td>
@@ -27,6 +32,8 @@
       </tr>
     </tbody>
   </table>
+  <p>其他練習題：BMI 計算機(V-model、v-bind、v-if 練習)、字數倒數計算器(computed)</p>
+
 </template>
 <script setup>
 import { ref } from 'vue'
