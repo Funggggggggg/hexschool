@@ -87,7 +87,7 @@ const user = ref({
 onMounted(async () => {
   const token = document.cookie.replace(/(?:^|.*;\s*)customtodotoken\s*=\s*([^;]*).*$/i, '$1')
   // console.log(token) => 小步測試
-  const res = await
+  const res = await axios
 })
 </script>
 
