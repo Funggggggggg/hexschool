@@ -87,7 +87,10 @@ const user = ref({
 onMounted(async () => {
   const token = document.cookie.replace(/(?:^|.*;\s*)customtodotoken\s*=\s*([^;]*).*$/i, '$1')
   // console.log(token) => 小步測試
-  const res = await axios
+  const res = await axios.get(`${api}users/checkout`, {})
+  // 「把 cookie 裡的 token 讀出來，放到 Authorization header，呼叫 API /users/checkout 驗證登入，並把伺服器回傳的使用者資料存到 user 裡」
+  // 把 token 放在 Authorization header，是 HTTP 標準設計的身份驗證欄位，安全性比放在 URL 或 Cookie 更高，也方便後端 middleware 統一驗證。這是前後端分離架構的主流做法。
+  // 「放在 Authorization header」就是一個 業界慣例 + 安全考量 + 後端容易驗證 的做法。
 })
 </script>
 
