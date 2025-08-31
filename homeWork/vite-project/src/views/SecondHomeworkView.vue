@@ -5,18 +5,27 @@
     <input type="text" placeholder="email" v-model="signupField.email" />
     <input type="text" placeholder="password" v-model="signupField.password" />
     <input type="text" placeholder="nickname" v-model="signupField.nickname" />
-    <button @click="signup">註冊</button> userId: {{ userId }}
+    <button @click="signup">註冊</button>
+    <p>userId: {{ userId }}</p>
+    <p>{{ signupField }}</p>
     <br />
-    {{ signupField }}
     <h3>登入</h3>
     <input type="text" placeholder="email" v-model="signinField.email" />
     <input type="text" placeholder="password" v-model="signinField.password" />
-    <button @click="signin">登入</button> userToken: {{ userToken }}
-    {{ signinField }}
+    <button @click="signin">登入</button>
+    <p>userToken: {{ userToken }}</p>
+    <p>{{ signinField }}</p>
+    <br />
     <h3>驗證</h3>
-    <input type="text" placeholder="email" />
-    <input type="text" placeholder="password" />
-    <button>驗證</button>
+    <!-- 有取到 uid => 在 user.uid 有值（為真）時，這個 <div> 才會被渲染到頁面上 -->
+    <div v-if="user.uid">
+      <p>成功登入！</p>
+      <p>uid: {{ user.uid }}</p>
+      <p>nickname: {{ user.nickname }}</p>
+    </div>
+    <div v-else>
+      <p>還沒登入喔！</p>
+    </div>
   </div>
 </template>
 <script setup>
@@ -75,22 +84,29 @@ const signin = async () => {
   }
 }
 
+// 驗證
 const user = ref({
   uid: '',
   nickname: '',
 })
-// .replace(..., "$1")
-// replace 會把整個 document.cookie 的字串拿來套正則。
-// $1 代表第一個捕捉群組（也就是 ([^;]*) 裡抓到的值）。
-// 這樣就能直接把 token 的值 抽出來。
 
+// .replace(..., "$1")
+//      replace 會把整個 document.cookie 的字串拿來套正則。
+//      $1 代表第一個捕捉群組（也就是 ([^;]*) 裡抓到的值）。
+
+// 📢「把 cookie 裡的 token 讀出來，放到 Authorization header，呼叫 API /users/checkout 驗證登入，並把伺服器回傳的使用者資料存到 user 裡」
+// 把 token 放在 Authorization header，是 HTTP 標準設計的身份驗證欄位，安全性比放在 URL 或 Cookie 更高，也方便後端 middleware 統一驗證。這是前後端分離架構的主流做法。
+// 「放在 Authorization header」就是一個 業界慣例 + 安全考量 + 後端容易驗證 的做法。
 onMounted(async () => {
   const token = document.cookie.replace(/(?:^|.*;\s*)customtodotoken\s*=\s*([^;]*).*$/i, '$1')
   // console.log(token) => 小步測試
-  const res = await axios.get(`${api}users/checkout`, {})
-  // 「把 cookie 裡的 token 讀出來，放到 Authorization header，呼叫 API /users/checkout 驗證登入，並把伺服器回傳的使用者資料存到 user 裡」
-  // 把 token 放在 Authorization header，是 HTTP 標準設計的身份驗證欄位，安全性比放在 URL 或 Cookie 更高，也方便後端 middleware 統一驗證。這是前後端分離架構的主流做法。
-  // 「放在 Authorization header」就是一個 業界慣例 + 安全考量 + 後端容易驗證 的做法。
+  const res = await axios.get(`${api}users/checkout`, {
+    headers: {
+      Authorization: token,
+    },
+  })
+  console.log(res)
+  user.value = res.data
 })
 </script>
 
