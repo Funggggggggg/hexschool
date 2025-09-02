@@ -64,32 +64,23 @@
             value="註冊帳號"
             @click="signup"
           />
-          <a class="formControls_btnLink" href="#loginPage">登入</a>
+          <a class="formControls_btnLink" href="#login_page">登入</a>
         </form>
       </div>
     </div>
   </div>
 </template>
 <script setup>
-// 小步測試 隨時 console.log 檢查有沒有傳對
-// try catch => 幫你抓錯，不至於讓整個網站掛掉
-// 註冊的小錯誤：
-//    1. Password 長度不足（至少 6 碼）+ email 格式錯誤
-//    2. catch 的 (error) 沒寫
-//    3. userId 的寫法不熟
-
 import { ref } from 'vue'
 import axios from 'axios' // 記得安裝
 const api = 'https://todolist-api.hexschool.io/'
 const signupField = ref({
-  // Field 欄位名稱
   email: '',
   nickname: '',
   password: '',
 })
 const userId = ref('')
 const signup = async () => {
-  // console.log(`${api}users/sign_up`) => 小步測試
   try {
     const res = await axios.post(`${api}users/sign_up`, signupField.value)
     console.log(res)

@@ -45,7 +45,7 @@
             value="登入"
             @click="signin"
           />
-          <a class="formControls_btnLink" href="#signUpPage">註冊帳號</a>
+          <a class="formControls_btnLink" href="#/">註冊帳號</a>
         </form>
       </div>
     </div>

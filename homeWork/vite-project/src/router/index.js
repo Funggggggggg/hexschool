@@ -30,7 +30,7 @@ const router = createRouter({
       component: () => import('../views/ThirdHomeworkView.vue'),
     },
     {
-      psth: '/advanced',
+      path: '/advanced',
       name: 'advanced',
       component: () => import('../views/AdvancedView.vue'),
     },

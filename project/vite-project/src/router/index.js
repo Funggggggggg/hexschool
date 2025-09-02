@@ -1,8 +1,8 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import SignUpView from '../views/SignUpView.vue'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
@@ -12,7 +12,7 @@ const router = createRouter({
     {
       path: '/login_page',
       name: '登入',
-      component: () => import('../views/logInView.vue'),
+      component: () => import('../views/LogInView.vue'),
     },
     {
       path: '/todo_list',
