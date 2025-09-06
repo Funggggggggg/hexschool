@@ -2,11 +2,18 @@
   <li>
     <label class="todoList_label">
       <input class="todoList_input" type="checkbox" value="true" />
-      <span>把冰箱發霉的檸檬拿去丟</span>
+      <span>{{ todo.content }}</span>
     </label>
     <a href="#">
       <i class="fa fa-times"></i>
     </a>
   </li>
 </template>
-<script setup></script>
+<script setup>
+const props = defineProps({
+  todo: {
+    type: Object, // 單一
+    required: true,
+  },
+})
+</script>

@@ -7,14 +7,22 @@
     </ul>
     <div class="todoList_items">
       <ul class="todoList_item">
-        <TodoItem></TodoItem>
+        <TodoItem v-for="todo in todos" :key="todo.id" :todo="todo"></TodoItem>
       </ul>
       <div class="todoList_statistics">
         <p>5 個已完成項目</p>
       </div>
     </div>
   </div>
+  <!-- {{ todos }} 測試-->
 </template>
 <script setup>
 import TodoItem from './TodoItem.vue'
+
+const props = defineProps({
+  todos: {
+    type: Array,
+    required: true,
+  },
+})
 </script>
