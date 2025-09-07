@@ -11,9 +11,10 @@
     </nav>
     <div class="conatiner todoListPage vhContainer">
       <div class="todoList_Content">
-        <TodoForm></TodoForm>
-        <TodoList v-if="todos.length" :todos="todos"></TodoList>
+        <TodoForm @add-todo="addTodo"></TodoForm>
+        <TodoList v-if="todos.length" :todos="todos" @remove-todo="removeTodo"></TodoList>
         <!-- :todos="todos" 意思是「把父層的 todos 陣列，傳給子層的 props.todos」。 -->
+        <!-- 傳入子層：@remove-todo="removeTodo" 監聽子元件發出的 remove-todo 事件，然後呼叫父元件的 removeTodo 方法處理。 -->
         <p v-else>尚無待辦事項</p>
       </div>
     </div>
@@ -25,8 +26,8 @@ import TodoList from '@/components/TodoList.vue'
 import { ref } from 'vue'
 
 const todos = ref([
-  { id: 1, content: '把冰箱發霉的檸檬拿去丟', status: false },
-  { id: 2, content: '打電話叫媽媽匯款給我', status: true },
+  { id: 1, content: '把冰箱發霉的檸檬拿去丟', status: true },
+  { id: 2, content: '打電話叫媽媽匯款給我', status: false },
 ])
 
 const addTodo = (content) => {
@@ -49,4 +50,8 @@ const removeTodo = (id) => {
   // => 我要保留「 t.id 與傳入 id 不相同」的項目
   // => 當完全相同時，不符合過濾條件，會被排除。
 }
+// 🔑 流程 removeTodo 總結：
+// 孫元件 TodoItem.vue：使用者點擊 → emit('remove-todo', id)。
+// 子元件 TodoList.vue：接到孫元件的事件，繼續 emit('remove-todo', id) 把事件往上拋。
+// 父元件 TodoListView.vue：最終接收事件 → 執行 removeTodo(id) → 更新 todos 陣列。
 </script>

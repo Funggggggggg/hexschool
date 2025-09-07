@@ -52,7 +52,7 @@
             class="formControls_input"
             type="password"
             name="pwd"
-            id="pwd"
+            id="pwdd"
             placeholder="請再次輸入密碼"
             required
             v-model="signupField.password"
